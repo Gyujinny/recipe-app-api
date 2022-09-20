@@ -5,14 +5,18 @@ LABEL maintainer="ginnyyang"
 ENV PYTHONUNBUFFERED 1
 
 COPY ./requirements.txt /tmp/requirements.txt
+COPY ./requirements.dev.txt /tmp/requirements.dev.txt
 COPY ./app /app
 WORKDIR /app
 EXPOSE 8000
 
+ARG DEV=false
 # Everytime when it run make different layer, therefore run once
 RUN python -m venv /py && \
     /py/bin/pip install --upgrade pip && \
     /py/bin/pip install -r /tmp/requirements.txt && \
+    if [ $DEV ="true" ]; \
+        then /py/bin/pip install -r /tmp/requirements.dev.txt ; \
     rm -rf /tmp && \
     adduser \
         --disabled-password \
@@ -21,4 +25,4 @@ RUN python -m venv /py && \
 
 ENV PATH="/py/bin:$PATH"
 
-USER dgango-user
+USER django-user
