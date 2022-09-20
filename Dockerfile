@@ -11,8 +11,8 @@ EXPOSE 8000
 
 # Everytime when it run make different layer, therefore run once
 RUN python -m venv /py && \
-    /py/bin/pip intall --upgrade pip && \
-    /py/bin/pip intall -r /tmp/requirements.txt && \
+    /py/bin/pip install --upgrade pip && \
+    /py/bin/pip install -r /tmp/requirements.txt && \
     rm -rf /tmp && \
     adduser \
         --disabled-password \
