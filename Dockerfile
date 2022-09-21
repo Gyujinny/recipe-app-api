@@ -14,8 +14,8 @@ ARG DEV=false
 # Everytime when it run make different layer, therefore run once
 RUN python -m venv /py && \
     /py/bin/pip install --upgrade pip && \
-    apk add --update --no-cashe postgresql-client && \
-    apk add --update --no-cashe --virtual .tmp-build-dev && \
+    apk add --update --no-cache postgresql-client && \
+    apk add --update --no-cache --virtual .tmp-build-deps \
         build-base postgresql-dev musl-dev && \
     /py/bin/pip install -r /tmp/requirements.txt && \
     if [ $DEV = "true" ]; \
