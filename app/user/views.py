@@ -10,12 +10,12 @@ from user.serializers import (
     AuthTokenSerializer,
 )
 
-class CreateUserview(generics.CreateAPIView):
+class CreateUserView(generics.CreateAPIView):
     """Create a new user in the system."""
     serializer_class = UserSerializer
 
 
-class CreateTokenview(ObtainAuthToken):
-    """Create a new user in the system."""
+class CreateTokenView(ObtainAuthToken):
+    """Create a new auth token for user."""
     serializer_class = AuthTokenSerializer
     renderer_classes = api_setting.DEFAULT_RENDERER_CLASSES
