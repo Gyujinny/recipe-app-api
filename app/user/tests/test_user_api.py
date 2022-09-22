@@ -21,7 +21,7 @@ def create_user(**params):
 class PublicUserApiTests(TestCase):
     """Test the public features of the user API"""
 
-    def set_up(self):
+    def setUp(self):
         self.client = APIClient()
 
     def test_create_user_success(self):
@@ -99,7 +99,6 @@ class PublicUserApiTests(TestCase):
         payload = {'email': 'test@example.com', 'password': 'pass123'}
         res = self.client.post(TOKEN_URL, payload)
 
-        self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_create_token_blank_password(self):

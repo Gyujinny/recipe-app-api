@@ -24,10 +24,10 @@ class UserSerializer(serializers.ModelSerializer):
         """Create and return a user with encrypted password."""
         return get_user_model().objects.create_user(**validated_data)
 
-class AuthTokenSerializer(serializer.Serializer):
+class AuthTokenSerializer(serializers.Serializer):
     """Serializer for the user auth token."""
     email = serializers.EmailField()
-    password = serializers.Charfield(
+    password = serializers.CharField(
         style={'input_type': 'password'},
         trim_whitespace=False,
     )
@@ -42,7 +42,7 @@ class AuthTokenSerializer(serializer.Serializer):
             password=password,
         )
         if not user:
-            msg = _('Unable to authenticate with provided credencials.')
+            msg = _('Unable to authenticate with provided credentials.')
             raise serializers.ValidationError(msg, code='authorization')
 
         attrs['user'] = user
