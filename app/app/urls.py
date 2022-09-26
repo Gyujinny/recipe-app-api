@@ -21,12 +21,12 @@ from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
-    path('/',views.index,name='index')
     path('admin/', admin.site.urls),
-    path('api/schema/', SpectacularAPIView.as_view(), name='user.urls'),
+    path('api/schema/', SpectacularAPIView.as_view(), name='api-schema'),
     path(
-        'api/doxs/', SpectacularSwaggerView.as_view(url_name='api-schema'),
+        'api/docs/',
+        SpectacularSwaggerView.as_view(url_name='api-schema'),
         name='api-docs',
-    ),
-    path('api/user/', include('user.urls')),
+    )
+    # path('api/user/', include('user.urls')),
 ]
