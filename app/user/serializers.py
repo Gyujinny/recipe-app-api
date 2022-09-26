@@ -11,10 +11,10 @@ from rest_framework import serializers
 
 # (user serializer, modelserializer)
 class UserSerializer(serializers.ModelSerializer):
-    """Serializer for the user object"""
+    """Serializer for the user object."""
 
     class Meta:
-        model =get_user_model()
+        model = get_user_model()
         fields = ['email', 'password', 'name']
         # User can write but pw cannot be returned.
         extra_kwargs = {'password': {'write_only': True, 'min_length': 5}}

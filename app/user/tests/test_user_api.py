@@ -1,5 +1,5 @@
 """
-Test for the user API.
+Tests for the user API.
 """
 from django.test import TestCase
 from django.contrib.auth import get_user_model
@@ -16,11 +16,11 @@ ME_URL = reverse('user:me')
 
 def create_user(**params):
     """Create and return a new user."""
-    return get_user_model().object.create_user(**params)
+    return get_user_model().objects.create_user(**params)
 
 
 class PublicUserApiTests(TestCase):
-    """Test the public features of the user API"""
+    """Test the public features of the user API."""
 
     def setUp(self):
         self.client = APIClient()
@@ -54,7 +54,7 @@ class PublicUserApiTests(TestCase):
         self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_password_too_short_error(self):
-        """TEST an error is returned if password less than 5 chars."""
+        """Test an error is returned if password less than 5 chars."""
         payload = {
             'email': 'test@example.com',
             'password': 'pw',
@@ -76,6 +76,7 @@ class PublicUserApiTests(TestCase):
             'password': 'test-user-password123',
         }
         create_user(**user_details)
+
         payload = {
             'email': user_details['email'],
             'password': user_details['password'],
@@ -112,14 +113,14 @@ class PublicUserApiTests(TestCase):
         self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_retrieve_user_unauthorized(self):
-        """Test authentification is required for users."""
+        """Test authentication is required for users."""
         res = self.client.get(ME_URL)
 
         self.assertEqual(res.status_code, status.HTTP_401_UNAUTHORIZED)
 
 
-class PrivateUSerApiTests(TestCase):
-    """Test API requests that require authentification."""
+class PrivateUserApiTests(TestCase):
+    """Test API requests that require authentication."""
 
     def setUp(self):
         self.user = create_user(
@@ -127,8 +128,8 @@ class PrivateUSerApiTests(TestCase):
             password='testpass123',
             name='Test Name',
         )
-        self.client =APIClient()
-        self.client.force_authentificate(user=self.user)
+        self.client = APIClient()
+        self.client.force_authenticate(user=self.user)
 
     def test_retrieve_profile_success(self):
         """Test retrieving profile for logged in user."""
@@ -142,12 +143,12 @@ class PrivateUSerApiTests(TestCase):
 
     def test_post_me_not_allowed(self):
         """Test POST is not allowed for the me endpoint."""
-        res = selfclient.post(ME_URL, {})
+        res = self.client.post(ME_URL, {})
 
         self.assertEqual(res.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
 
     def test_update_user_profile(self):
-        """Test updating the user profile for   the authentificated user."""
+        """Test updating the user profile for the authenticated user."""
         payload = {'name': 'Updated name', 'password': 'newpassword123'}
 
         res = self.client.patch(ME_URL, payload)
