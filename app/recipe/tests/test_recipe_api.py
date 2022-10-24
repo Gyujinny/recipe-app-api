@@ -55,7 +55,7 @@ class PublicRecipeAPITests(TestCase):
 
 
 class PrivateRecipeApiTests(TestCase):
-    """Test authentificated API requests."""
+    """Test authenticated API requests."""
 
     def setUp(self):
         self.client = APIClient()
@@ -100,5 +100,5 @@ class PrivateRecipeApiTests(TestCase):
         url = detail_url(recipe.id)
         res = self.client.get(url)
 
-        serializer = RecipeDetailSerializer(Recipe)
+        serializer = RecipeDetailSerializer(recipe)
         self.assertEqual(res.data, serializer.data)
