@@ -27,9 +27,7 @@ SECRET_KEY = 'django-insecure-00mg5p=zc%t1^!79f0q)&-y!(_qbl3px32)79+13!hr9m+rb9x
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [
-
-]
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -46,6 +44,7 @@ INSTALLED_APPS = [
     'drf_spectacular',
     'core',
     'user',
+    'recipe',
 ]
 
 MIDDLEWARE = [
