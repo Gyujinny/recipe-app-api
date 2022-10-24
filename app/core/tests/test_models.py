@@ -57,7 +57,7 @@ class ModelTests(TestCase):
             'test@example.com',
             'testpass123',
         )
-        recipe = models.Recipe.Objects.create(
+        recipe = models.Recipe.objects.create(
             user=user,
             title='Sample recipe name',
             time_minutes=5,
@@ -65,5 +65,5 @@ class ModelTests(TestCase):
             description='Sample recipe description.',
         )
 
-        self.assertEqual(str(recipe),recipe.title)
+        self.assertEqual(str(recipe), recipe.title)
 
