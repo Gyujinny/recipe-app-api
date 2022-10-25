@@ -73,7 +73,7 @@ class PrivateTagsApiTests(TestCase):
 
 
     def test_update_tag(self):
-        """Test updateing a tag."""
+        """Test updating a tag."""
         tag = Tag.objects.create(user=self.user, name='After Dinner')
 
         payload = {'name': 'Dessert'}
@@ -92,5 +92,5 @@ class PrivateTagsApiTests(TestCase):
         res = self.client.delete(url)
 
         self.assertEqual(res.status_code, status.HTTP_204_NO_CONTENT)
-        tags = tag.objects.filter(user=self.user)
+        tags = Tag.objects.filter(user=self.user)
         self.assertFalse(tags.exists())
