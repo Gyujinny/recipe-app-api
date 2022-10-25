@@ -102,7 +102,7 @@ class PrivateRecipeApiTests(TestCase):
         serializer = RecipeDetailSerializer(recipe)
         self.assertEqual(res.data, serializer.data)
 
-    def test_creat_recipe(self):
+    def test_create_recipe(self):
         """Test creating a recipe."""
         payload = {
             'title': "Sample recipe",
@@ -113,20 +113,20 @@ class PrivateRecipeApiTests(TestCase):
 
         self.assertEqual(res.status_code, status.HTTP_201_CREATED)
         recipe = Recipe.objects.get(id=res.data['id'])
-        for k,v in payload.items():
+        for k, v in payload.items():
             self.assertEqual(getattr(recipe, k), v)
         self.assertEqual(recipe.user, self.user)
 
     def test_partial_update(self):
         """Test partial update of a recipe."""
-        original_link = 'http://example.com/recipe.pdf'
+        original_link = 'https://example.com/recipe.pdf'
         recipe = create_recipe(
             user=self.user,
             title='Sample recipe title',
             link=original_link,
         )
 
-        payload = {'title': 'new recipe title'}
+        payload = {'title': 'New recipe title'}
         url = detail_url(recipe.id)
         res = self.client.patch(url, payload)
 
