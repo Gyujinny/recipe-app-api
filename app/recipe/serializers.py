@@ -28,7 +28,6 @@ class TagSerializer(serializers.ModelSerializer):
         read_only_fields = ['id']
 
 
-
 class RecipeSerializer(serializers.ModelSerializer):
     """Serializer for recipes."""
     tags = TagSerializer(many=True, required=False)
