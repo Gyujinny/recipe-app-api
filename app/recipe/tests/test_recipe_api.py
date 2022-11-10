@@ -369,9 +369,9 @@ class PrivateRecipeApiTests(TestCase):
 
     def test_clear_recipe_ingredients(self):
         """Test clearing a recipes ingredients."""
-        ingredient1 = Ingredient.objects.create(user=self.user, name='Garlic')
+        ingredient = Ingredient.objects.create(user=self.user, name='Garlic')
         recipe = create_recipe(user=self.user)
-        recipe.ingredients.add(ingredient1)
+        recipe.ingredients.add(ingredient)
 
         payload = {'ingredients': []}
         url = detail_url(recipe.id)
@@ -382,8 +382,8 @@ class PrivateRecipeApiTests(TestCase):
 
     def test_filter_by_tags(self):
         """Test filtering recipes by tags."""
-        r1 = create_recipe(user=self.user, title="Thai Vegetable Curry")
-        r2 = create_recipe(user=self.user, title="Aubergine with Tahini")
+        r1 = create_recipe(user=self.user, title='Thai Vegetable Curry')
+        r2 = create_recipe(user=self.user, title='Aubergine with Tahini')
         tag1 = Tag.objects.create(user=self.user, name='Vegan')
         tag2 = Tag.objects.create(user=self.user, name='Vegetarian')
         r1.tags.add(tag1)
@@ -402,8 +402,8 @@ class PrivateRecipeApiTests(TestCase):
 
     def test_filter_by_ingredients(self):
         """Test filtering recipes by ingredients."""
-        r1 = create_recipe(user=self.user, title="Posh Beans on Toast")
-        r2 = create_recipe(user=self.user, title="Chicken Cacciatore")
+        r1 = create_recipe(user=self.user, title='Posh Beans on Toast')
+        r2 = create_recipe(user=self.user, title='Chicken Cacciatore')
         in1 = Ingredient.objects.create(user=self.user, name='Feta Cheese')
         in2 = Ingredient.objects.create(user=self.user, name='Chicken')
         r1.ingredients.add(in1)
