@@ -35,7 +35,7 @@ def detail_url(recipe_id):
 
 def image_upload_url(recipe_id):
     """Create and return an image upload URL."""
-    return reverse('recipe:recipe-uploads-image', args=[recipe_id])
+    return reverse('recipe:recipe-upload-image', args=[recipe_id])
 
 
 def create_recipe(user, **params):
@@ -404,13 +404,13 @@ class PrivateRecipeApiTests(TestCase):
         """Test filtering recipes by ingredients."""
         r1 = create_recipe(user=self.user, title="Posh Bean on Toast")
         r2 = create_recipe(user=self.user, title="Chicken Cacciatore")
-        in1 = Tag.objects.create(user=self.user, name='Feta Cheese')
-        in2 = Tag.objects.create(user=self.user, name='Chicken')
-        r1.tags.add(in1)
-        r2.tags.add(in2)
+        in1 = Ingredient.objects.create(user=self.user, name='Feta Cheese')
+        in2 = Ingredient.objects.create(user=self.user, name='Chicken')
+        r1.ingredient.add(in1)
+        r2.ingredient.add(in2)
         r3 = create_recipe(user=self.user, title='Red Lentil Daal')
 
-        params = {'ingredients': f'{in1.id}, {in2.id}'}
+        params = {'ingredients': f'{in1.id},{in2.id}'}
         res = self.client.get(RECIPES_URL, params)
 
         s1 = RecipeSerializer(r1)
@@ -419,10 +419,6 @@ class PrivateRecipeApiTests(TestCase):
         self.assertIn(s1.data, res.data)
         self.assertIn(s2.data, res.data)
         self.assertNotIn(s3.data, res.data)
-
-
-
-
 
 class ImageUploadTests(TestCase):
     """Tests for the image upload API."""
@@ -454,3 +450,11 @@ class ImageUploadTests(TestCase):
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         self.assertIn('image', res.data)
         self.assertTrue(os.path.exists(self.recipe.image.path))
+
+    def test_upload_image_bad_request(self):
+        """Test uploading an invalid image."""
+        url = image_upload_url(self.recipe.id)
+        payload = {'image': 'notanimage'}
+        res = self.client.post(url, payload, format='multipart')
+
+        self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
